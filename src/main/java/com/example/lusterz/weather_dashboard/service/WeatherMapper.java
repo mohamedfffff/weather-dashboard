@@ -26,14 +26,14 @@ public class WeatherMapper {
 
             Weather weather = new Weather();
             weather.setCityName(location.get("name").asString());
-            weather.setCountry(location.get("country").asText());
+            weather.setCountry(location.get("country").asString());
             weather.setTempC(current.get("temp_c").asDouble());
             weather.setTempF(current.get("temp_f").asDouble());
-            weather.setCondition(condition.get("text").asText());
-            weather.setIcon(condition.get("icon").asText());
+            weather.setCondition(condition.get("text").asString());
+            weather.setIcon(condition.get("icon").asString());
             weather.setHumidity(current.get("humidity").asInt());
             weather.setWindSpeed(current.get("wind_kph").asDouble());
-            weather.setWindDirection(current.get("wind_dir").asText());
+            weather.setWindDirection(current.get("wind_dir").asString());
             weather.setFeelsLike(current.get("feelslike_c").asDouble());
             weather.setLastUpdated(LocalDateTime.now());
 
