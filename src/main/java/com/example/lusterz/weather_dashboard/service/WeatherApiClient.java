@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono;
 public class WeatherApiClient {
 
     private final WebClient webClient;
+    
     @Value("${weather.api.url}")
     private String weatherApiUrl;
     @Value("${weather.api.key}")
