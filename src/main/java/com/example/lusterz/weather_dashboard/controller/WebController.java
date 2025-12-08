@@ -10,4 +10,19 @@ public class WebController {
     public String Home(){
         return "index.html";
     }
+
+    @GetMapping("/login")
+    public String login(){
+        return "login.html";
+    }
+
+    @GetMapping("/signup")
+    public String signup(){
+        return "signup.html";
+    }
+
+    @GetMapping("/logout")
+    public String logout(){
+        return "logout.html";
+    }
 }
