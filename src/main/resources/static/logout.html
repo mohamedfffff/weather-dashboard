@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #e9ecef; margin: 0; }
+        .container { background-color: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        h2 { color: #333; margin-bottom: 1rem; }
+        p { margin-bottom: 1.5rem; }
+        button { padding: 0.75rem 1.5rem; border: none; border-radius: 4px; background-color: #dc3545; color: white; cursor: pointer; }
+        button:hover { background-color: #c82333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to the Dashboard!</h2>
+        <p>You have successfully logged in.</p>
+        <button onclick="logout()">Log Out</button>
+    </div>
+
+    <script>
+        // Check if the user is logged in when the page loads
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            // If not logged in, redirect them immediately to the login page
+            window.location.href = 'login.html';
+        }
+
+        // Function to handle the logout process
+        function logout() {
+            // Clear the "loggedIn" status from local storage
+            localStorage.removeItem('isLoggedIn');
+            // Redirect the user to the login page
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
