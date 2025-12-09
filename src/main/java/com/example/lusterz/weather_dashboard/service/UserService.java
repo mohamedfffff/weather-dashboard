@@ -34,13 +34,9 @@ public class UserService {
         User user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
-        user.setPassword(encodePassword(request.getPassword()));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         userRepository.save(user);
         return user;
-    }
-
-    public String encodePassword(String password) {
-        return passwordEncoder.encode(password);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.lusterz.weather_dashboard.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.lusterz.weather_dashboard.dto.SignupRequest;
@@ -8,6 +9,7 @@ import com.example.lusterz.weather_dashboard.model.User;
 import com.example.lusterz.weather_dashboard.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,15 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers()) ;
+    }
+
+    @GetMapping
+    public ResponseEntity<User> getSingleUser(@RequestParam String name) {
+        Optional<User> user = userService.getSingleUser(name);
+        if (user.isPresent()) {
+            ResponseEntity.ok(user.get());
+        }
+        return ResponseEntity.notFound().build();
     }
     
 }
