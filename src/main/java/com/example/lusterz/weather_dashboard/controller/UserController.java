@@ -3,11 +3,13 @@ package com.example.lusterz.weather_dashboard.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.lusterz.weather_dashboard.dto.SignupRequest;
 import com.example.lusterz.weather_dashboard.model.User;
 import com.example.lusterz.weather_dashboard.service.UserService;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,21 +25,14 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-    public record SignupRequest(String name, String email, String password){}
     
     @PostMapping
-    public ResponseEntity<String> registerUser(@RequestBody SignupRequest request) {
-        if (userService.getSingleUser(request.name).isPresent()) {
-            return ResponseEntity.badRequest().body("User Taken");
+    public ResponseEntity<String> registerNewUser(@RequestBody SignupRequest request) {
+        if (userService.getSingleUser(request.getName()).isPresent()) {
+           return ResponseEntity.status(HttpStatus.CONFLICT).body("User Exists");
         }
 
-        User user = new User();
-        user.setName(request.name);
-        user.setEmail(request.email);
-        user.setPassword(userService.encodePassword(request.password));
-
-        userService.saveUser(user);
+        userService.registerNewUser(request);
         
         return ResponseEntity.ok("User created successfully");
     }

@@ -8,7 +8,7 @@ public class WebController {
 
     @GetMapping("/")
     public String Home(){
-        return "index.html";
+        return "home.html";
     }
 
     @GetMapping("/login")
@@ -19,10 +19,5 @@ public class WebController {
     @GetMapping("/signup")
     public String signup(){
         return "signup.html";
-    }
-
-    @GetMapping("/logout")
-    public String logout(){
-        return "logout.html";
     }
 }

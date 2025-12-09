@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <style>
+        body {
+            background-color: #121212; /* Dark background */
+            color: #E0E0E0; /* Light text */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #BB86FC; /* Accent color for title */
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #1F1F1F; /* Darker card background */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+            background-color: #2D2D2D;
+        }
+        .card h2 {
+            margin-top: 0;
+            color: #03DAC6; /* Secondary accent color */
+            font-size: 1.5em;
+        }
+        .temp {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #CF6679; /* Highlight color for temperature */
+        }
+        .condition-icon {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .icon-placeholder {
+            width: 50px;
+            height: 50px;
+            background-color: #BB86FC;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 1.2em;
+        }
+        .condition {
+            font-style: italic;
+        }
+        .auth-links {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .auth-links a {
+            color: #03DAC6;
+            text-decoration: none;
+            margin-left: 15px;
+            padding: 8px 15px;
+            border: 1px solid #03DAC6;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .auth-links a:hover {
+            background-color: #03DAC633;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-links">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+    </div>
+
+    <h1>🏙️ Global Weather Snapshot</h1>
+
+    <div class="weather-grid" id="weatherGrid">
+        </div>
+
+    <script>
+        const CITIES = [
+            "London", "Paris", "Tokyo", "Beijing", "Moscow",
+            "Dubai", "Singapore", "Sydney", "Berlin", "Rome",
+            "Madrid", "Toronto", "Chicago", "Bangkok", "Seoul",
+            "Cairo", "Mumbai", "Istanbul", "Osaka", "Rio"
+        ];
+        
+        const API_BASE = "http://localhost:8080/api/v1/weather";
+
+        // Function to fetch and display weather for all cities
+        async function fetchAndRenderWeather() {
+            const grid = document.getElementById('weatherGrid');
+            grid.innerHTML = '<p style="text-align: center; color: #BB86FC;">Loading weather data...</p>';
+
+            // NOTE: In a real app, you'd send one request to your API 
+            // which internally fetches and returns data for all cities.
+            
+            // For pure JS, we'll try to fetch all at once
+            const fetchPromises = CITIES.map(cityName => 
+                fetch(`${API_BASE}/city?city=${cityName}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            // If API returns 404/500 for a city, return a fallback object
+                            return { 
+                                cityName: cityName, 
+                                tempC: 'N/A', 
+                                condition: 'Data Unavailable', 
+                                icon: '',
+                                error: true
+                            };
+                        }
+                        return response.json();
+                    })
+                    .catch(e => {
+                        console.error(`Error fetching ${cityName}:`, e);
+                        return { 
+                            cityName: cityName, 
+                            tempC: 'N/A', 
+                            condition: 'Fetch Error', 
+                            icon: '',
+                            error: true
+                        };
+                    })
+            );
+
+            const weatherData = await Promise.all(fetchPromises);
+            grid.innerHTML = ''; // Clear loading message
+
+            weatherData.forEach(data => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => {
+                    // Navigate to city.html with the city name as a query parameter
+                    window.location.href = `city.html?city=${encodeURIComponent(data.cityName)}`;
+                };
+
+                const temp = data.tempC !== 'N/A' ? `${Math.round(data.tempC)}°C` : data.tempC;
+                const iconHtml = data.icon ? `<img src="${data.icon}" alt="Weather Icon" style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;"/>` : `<div class="icon-placeholder">☀️</div>`;
+                
+                card.innerHTML = `
+                    <div class="condition-icon">
+                        <h2>${data.cityName}</h2>
+                        <div style="width: 50px; height: 50px;">${iconHtml}</div>
+                    </div>
+                    <div class="temp">${temp}</div>
+                    <div class="condition">Condition: ${data.condition}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchAndRenderWeather);
+    </script>
+</body>
+</html>

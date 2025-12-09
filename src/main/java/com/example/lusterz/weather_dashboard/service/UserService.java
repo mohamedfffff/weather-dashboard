@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.lusterz.weather_dashboard.dto.SignupRequest;
 import com.example.lusterz.weather_dashboard.model.User;
 import com.example.lusterz.weather_dashboard.repository.UserRepository;
 
@@ -28,8 +29,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void saveUser(User user) {
+    public User registerNewUser(SignupRequest request) {
+        
+        User user = new User();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(encodePassword(request.getPassword()));
+
         userRepository.save(user);
+        return user;
     }
 
     public String encodePassword(String password) {

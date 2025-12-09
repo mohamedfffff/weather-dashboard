@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Login</title>
+    <title>User Sign Up</title>
     <style>
         body {
             background-color: #1A1A2E; /* Dark Blue/Purple background */
@@ -80,72 +80,67 @@
 </head>
 <body>
     <div class="container">
-        <h1>Login 👋</h1>
-        <form id="loginForm">
+        <h1>Sign Up 🚀</h1>
+        <form id="signupForm">
             <div>
-                <label for="name">name</label>
-                <input type="name" id="name" name="name" required>
+                <label for="name">Username</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
             </div>
             <div>
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Log In</button>
+            <button type="submit">Register</button>
         </form>
         <div id="message"></div>
         <div class="switch-link">
-            Don't have an account? <a href="signup.html">Sign Up</a>
+            Already have an account? <a href="login.html">Log In</a>
         </div>
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+        document.getElementById('signupForm').addEventListener('submit', async function(event) {
             event.preventDefault();
             const form = event.target;
             const messageDiv = document.getElementById('message');
-            messageDiv.textContent = 'Logging in...';
+            messageDiv.textContent = 'Submitting...';
             messageDiv.style.color = '#BB86FC';
 
-            const credentials = {
+            const userData = {
                 name: form.name.value,
+                email: form.email.value,
                 password: form.password.value
             };
 
-            // NOTE: The actual login endpoint depends heavily on your Spring Security setup (e.g., /login or /api/v1/auth)
-            // For a standard Spring Security form login, the action is usually POST to /login
-            const LOGIN_ENDPOINT = '/login'; 
-
             try {
-                const response = await fetch(LOGIN_ENDPOINT, {
+                const response = await fetch('http://localhost:8080/api/v1/user', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json' // Assuming you've configured Spring Security to accept JSON login
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(credentials)
+                    body: JSON.stringify(userData)
                 });
 
-                // This logic is complex because Spring Security often handles successful login with a redirect.
-                // If using a custom /api/v1/auth endpoint that returns a token/JSON:
                 if (response.ok) {
-                    messageDiv.textContent = 'Login Successful! Redirecting to dashboard...';
+                    messageDiv.textContent = 'Registration Successful! Redirecting to login...';
                     messageDiv.style.color = '#03DAC6';
-                    
-                    // Handle token/session storage if returned by your API
-                    // const data = await response.json(); 
-                    // localStorage.setItem('token', data.token);
-
                     setTimeout(() => {
-                        window.location.href = 'home.html';
-                    }, 1500);
-                } else if (response.status === 401 || response.status === 403) {
-                    messageDiv.textContent = 'Login failed: Invalid email or password.';
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else if (response.status === 409) { // Assuming 409 Conflict for duplicate user/email
+                    messageDiv.textContent = 'Registration failed: Username or Email already in use.';
                     messageDiv.style.color = '#CF6679';
                 } else {
-                    messageDiv.textContent = 'An unknown error occurred during login.';
+                    const errorData = await response.json();
+                    messageDiv.textContent = `Registration failed: ${errorData.message || response.statusText}`;
                     messageDiv.style.color = '#CF6679';
                 }
             } catch (error) {
-                messageDiv.textContent = 'Network error. Please try again.';
+                messageDiv.textContent = 'An error occurred during registration. Check your connection.';
                 messageDiv.style.color = '#CF6679';
                 console.error('Fetch error:', error);
             }
