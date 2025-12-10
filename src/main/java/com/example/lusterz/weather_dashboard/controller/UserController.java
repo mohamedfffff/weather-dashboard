@@ -45,7 +45,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers()) ;
     }
 
-    @GetMapping
+    @GetMapping(params = "name")
     public ResponseEntity<User> getSingleUser(@RequestParam String name) {
         Optional<User> user = userService.getSingleUser(name);
         if (user.isPresent()) {

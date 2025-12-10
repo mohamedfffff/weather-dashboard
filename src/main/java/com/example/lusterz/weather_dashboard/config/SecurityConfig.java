@@ -7,6 +7,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -25,18 +26,14 @@ public class SecurityConfig {
                 .requestMatchers("/login", "/signup","/login.html", "/signup.html").permitAll()
                 //allow access to adding new user endpoint
                 .requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
+                //allow access to authentication endpoint
+                .requestMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
                 //allow access to get all  users endpoint only to the admin
                 .requestMatchers(HttpMethod.GET, "/api/v1/user").hasAuthority("ROLE_ADMIN")
                 //authentication required for all other requests
                 .anyRequest().authenticated()
-            )
-            //use simple username and password login auth
-            .httpBasic(Customizer.withDefaults())
-            //use custom login form
-            .formLogin(form -> form
-                .loginPage("/login.html")
-                .defaultSuccessUrl("/home.html")
-                .failureUrl("/login.html?error=true")
+            ).sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
             );
         return http.build();
     }
