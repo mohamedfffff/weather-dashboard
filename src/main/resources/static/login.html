@@ -111,45 +111,41 @@
                 password: form.password.value
             };
 
-            // NOTE: The actual login endpoint depends heavily on your Spring Security setup (e.g., /login or /api/v1/auth)
-            // For a standard Spring Security form login, the action is usually POST to /login
-            const LOGIN_ENDPOINT = '/login'; 
+            const LOGIN_ENDPOINT = '/api/v1/auth'; 
+            // Assume this is inside an 'async function loginHandler(credentials) { ... }'
 
             try {
                 const response = await fetch(LOGIN_ENDPOINT, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json' // Assuming you've configured Spring Security to accept JSON login
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(credentials)
                 });
 
-                // This logic is complex because Spring Security often handles successful login with a redirect.
-                // If using a custom /api/v1/auth endpoint that returns a token/JSON:
                 if (response.ok) {
+                    // *** AWAIT the JSON parsing here ***
+                    const responseData = await response; 
+
                     messageDiv.textContent = 'Login Successful! Redirecting to dashboard...';
                     messageDiv.style.color = '#03DAC6';
-                    
-                    // Handle token/session storage if returned by your API
-                    // const data = await response.json(); 
-                    // localStorage.setItem('token', data.token);
+                    console.log("Credentials sent: ", JSON.stringify(credentials));
+                    console.log("Response JSON: ", responseData);
+                    // window.location.href = '/';
 
-                    setTimeout(() => {
-                        window.location.href = 'home.html';
-                    }, 1500);
-                } else if (response.status === 401 || response.status === 403) {
-                    messageDiv.textContent = 'Login failed: Invalid email or password.';
-                    messageDiv.style.color = '#CF6679';
-                } else {
-                    messageDiv.textContent = 'An unknown error occurred during login.';
-                    messageDiv.style.color = '#CF6679';
+                } 
+                else {
+                    // Handle non-200 responses (e.g., 401 Unauthorized, 404 Not Found)
+                    const errorData = await response.json(); // May or may not be available
+                    console.error("Login failed with status:", response.status);
+                    console.error("Server Error Details:", errorData);
                 }
             } catch (error) {
-                messageDiv.textContent = 'Network error. Please try again.';
-                messageDiv.style.color = '#CF6679';
-                console.error('Fetch error:', error);
+                // Handle network errors (e.g., server unreachable, CORS issues)
+                console.error('Network or parsing error during login:', error);
             }
-        });
+                
+            });
     </script>
 </body>
 </html>
