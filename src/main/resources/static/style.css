@@ -1,0 +1,237 @@
+/* --- Global Styles (Shared) --- */
+body {
+    background-color: #121212; /* Default Dark background */
+    color: #E0E0E0; /* Light text */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+h1 {
+    color: #BB86FC; /* Accent color for title */
+    text-align: center;
+    margin-bottom: 40px;
+}
+.temp {
+    font-weight: bold;
+    color: #CF6679; /* Highlight color for temperature (used on home) */
+}
+.auth-links {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.auth-links a {
+    color: #03DAC6;
+    text-decoration: none;
+    margin-left: 15px;
+    padding: 8px 15px;
+    border: 1px solid #03DAC6;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+.auth-links a:hover {
+    background-color: #03DAC633;
+}
+
+/* --- home.html styles --- */
+.weather-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.card {
+    background-color: #1F1F1F; /* Darker card background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    cursor: pointer;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+    background-color: #2D2D2D;
+}
+.card h2 {
+    margin-top: 0;
+    color: #03DAC6; /* Secondary accent color */
+    font-size: 1.5em;
+}
+.card .temp {
+    font-size: 2.5em;
+    margin: 10px 0;
+}
+.condition-icon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.icon-placeholder {
+    width: 50px;
+    height: 50px;
+    background-color: #BB86FC;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 1.2em;
+}
+.condition {
+    font-style: italic;
+}
+
+/* --- city.html styles --- */
+body.city-page {
+    background-color: #000033; /* Dark Blue Background */
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+.city-container {
+    background-color: #121245; /* Slightly lighter dark blue container */
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+.city-container h1 {
+    color: #4DB6AC; /* Teal/Cyan accent for city name */
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+.country {
+    color: #E0E0E0;
+    margin-bottom: 30px;
+    font-size: 1.2em;
+}
+.temp-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+.temp-main .temp {
+    font-size: 4em;
+    margin-right: 20px;
+    color: #FFCDD2; /* Light Red/Pink highlight */
+}
+.icon-container {
+    width: 80px;
+    height: 80px;
+}
+.icon-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.city-container .condition {
+    font-size: 1.5em;
+    color: #4DB6AC;
+    margin-bottom: 25px;
+}
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    text-align: left;
+    margin-top: 30px;
+}
+.detail-item {
+    background-color: #282860; /* Darker box for details */
+    padding: 15px;
+    border-radius: 8px;
+}
+.detail-label {
+    color: #B39DDB; /* Light purple for labels */
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #4DB6AC;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.2s;
+}
+.back-link:hover {
+    color: #FFCDD2;
+}
+
+/* --- login.html and signup.html styles --- */
+body.auth-page {
+    background-color: #1A1A2E; /* Dark Blue/Purple background */
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.auth-container {
+    background-color: #0F3460; /* Deep Blue container */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 400px;
+}
+.auth-container h1 {
+    color: #E94560; /* Red accent for titles */
+    margin-bottom: 30px;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #E0E0E0;
+}
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #1A1A2E;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #16213E; /* Dark input field */
+    color: #E0E0E0;
+}
+button {
+    width: 100%;
+    background-color: #533483; /* Purple button */
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: #6C5B9A;
+}
+.switch-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+.switch-link a {
+    color: #E94560;
+    text-decoration: none;
+}
+.switch-link a:hover {
+    text-decoration: underline;
+}
+#message {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
