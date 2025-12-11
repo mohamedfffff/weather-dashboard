@@ -18,6 +18,7 @@ public class AuthService {
     }
     
     public Authentication authenticateUser(LoginRequest loginRequest) {
+        //create new token with user credentials then add them to cookies
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
             loginRequest.getName(),
             loginRequest.getPassword()

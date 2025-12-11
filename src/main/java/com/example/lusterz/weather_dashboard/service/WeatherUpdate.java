@@ -44,16 +44,16 @@ public class WeatherUpdate {
                 .collectList();
     }
 
-    //update weather data // update every  1 hour
-    // @Scheduled(fixedRate = 10 * 10 * 1000) 
-    // public void updateWeatherData() {
-    //     saveCitiesWeather().subscribe();
-    // }
+    // update weather data // update every  1 hour
+    @Scheduled(fixedRate = 10 * 10 * 1000) 
+    public void updateWeatherData() {
+        saveCitiesWeather().subscribe();
+    }
 
-    //delete data older that 1 month // runs every day at midnight
-    // @Scheduled(cron = "0 0 0 * * *") 
-    // public void deleteOldWeatherData() {
-    //     LocalDateTime cutoff = LocalDateTime.now().minusDays(30);
-    //     weatherRepository.deleteByLastUpdatedBefore(cutoff);
-    // }
+    // delete data older that 1 month // runs every day at midnight
+    @Scheduled(cron = "0 0 0 * * *") 
+    public void deleteOldWeatherData() {
+        LocalDateTime cutoff = LocalDateTime.now().minusDays(30);
+        weatherRepository.deleteByLastUpdatedBefore(cutoff);
+    }
 }
