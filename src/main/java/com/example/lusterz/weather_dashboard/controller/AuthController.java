@@ -27,8 +27,6 @@ public class AuthController {
     public ResponseEntity<String> authenticateUser(@RequestBody LoginRequest loginRequest) {
         try {
             authService.authenticateUser(loginRequest);
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("location", "/");
             return ResponseEntity.ok("user authenticated");
         } catch (Exception e) {
             return ResponseEntity.status(401).body("login failed : " + e.getMessage());

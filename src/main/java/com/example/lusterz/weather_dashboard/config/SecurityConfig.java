@@ -7,7 +7,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -21,9 +20,10 @@ public class SecurityConfig {
         http
             //disable cors to allow access from frontend
             .csrf(AbstractHttpConfigurer::disable)
+            .httpBasic(Customizer.withDefaults())
             .authorizeHttpRequests(authorize -> authorize
                 //allow acces to login and signup pages
-                .requestMatchers("/login", "/signup","/login.html", "/signup.html").permitAll()
+                .requestMatchers("/login", "/signup","/login.html", "/home.html", "/city.html", "/signup.html").permitAll()
                 //allow access to adding new user endpoint
                 .requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
                 //allow access to authentication endpoint
@@ -32,8 +32,6 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/v1/user").hasAuthority("ROLE_ADMIN")
                 //authentication required for all other requests
                 .anyRequest().authenticated()
-            ).sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
             );
         return http.build();
     }

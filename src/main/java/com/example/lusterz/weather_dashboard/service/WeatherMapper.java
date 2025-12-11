@@ -20,6 +20,7 @@ public class WeatherMapper {
     public Weather map(String json) {
         try {
             JsonNode root = mapper.readTree(json);
+            //json provided is nested so we get the branches first
             JsonNode location = root.get("location");
             JsonNode current = root.get("current");
             JsonNode condition = current.get("condition");
