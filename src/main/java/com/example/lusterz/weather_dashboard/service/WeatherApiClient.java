@@ -27,5 +27,4 @@ public class WeatherApiClient {
                 .retrieve()
                 .bodyToMono(String.class);
     }
-
 }

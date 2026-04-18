@@ -23,7 +23,4 @@ public class WeatherService {
     public List<Weather> getCitiesWeather() {
         return weatherRepository.findAll();
     }
-
-
-
 }
