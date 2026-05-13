@@ -1,4 +1,4 @@
-package com.example.lusterz.weather_dashboard.service;
+package com.example.lusterz.weather_dashboard.config;
     
 import  java.util.Collections;
 

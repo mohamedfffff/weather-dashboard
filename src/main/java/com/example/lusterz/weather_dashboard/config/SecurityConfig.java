@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
-
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -20,19 +20,15 @@ public class SecurityConfig {
         http
             //disable cors to allow access from frontend
             .csrf(AbstractHttpConfigurer::disable)
-            .httpBasic(Customizer.withDefaults())
             .authorizeHttpRequests(authorize -> authorize
-                //allow acces to login and signup pages
-                .requestMatchers("/login", "/signup","/login.html", "/home.html", "/city.html", "/signup.html").permitAll()
-                //allow access to adding new user endpoint
-                .requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
-                //allow access to authentication endpoint
-                .requestMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
-                //allow access to get all  users endpoint only to the admin
-                .requestMatchers(HttpMethod.GET, "/api/v1/user").hasAuthority("ROLE_ADMIN")
-                //authentication required for all other requests
-                .anyRequest().authenticated()
-            );
+                .requestMatchers(HttpMethod.GET, "/api/v1/user").authenticated()
+                .anyRequest().permitAll()
+                )
+            .exceptionHandling(ex -> ex
+            .authenticationEntryPoint((request, response, authException) -> {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Log in first!");
+            })
+        );
         return http.build();
     }
 
