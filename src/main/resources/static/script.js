@@ -1,7 +1,7 @@
 // --- Constants (Shared) ---
-const API_BASE = "http://localhost:8080/api/v1/weather";
+const API_BASE = "/api/v1/weather";
 const LOGIN_ENDPOINT = '/api/v1/auth';
-const SIGNUP_ENDPOINT = 'http://localhost:8080/api/v1/user';
+const SIGNUP_ENDPOINT = '/api/v1/user';
 
 // --- Home Page Logic (fetchAndRenderWeather) ---
 const CITIES = [
