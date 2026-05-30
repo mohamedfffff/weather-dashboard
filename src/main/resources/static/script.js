@@ -4,11 +4,16 @@ const LOGIN_ENDPOINT = '/api/v1/auth';
 const SIGNUP_ENDPOINT = '/api/v1/user';
 
 // --- Home Page Logic (fetchAndRenderWeather) ---
-const CITIES = [
-    "London", "Paris", "Tokyo", "Beijing", "Moscow",
-    "Dubai", "Singapore", "Sydney", "Berlin", "Rome",
-    "Madrid", "Toronto", "Chicago", "Bangkok", "Seoul",
-    "Cairo", "Mumbai", "Istanbul", "Osaka", "Rio"
+const CITIES = ["Bangkok","Paris","London","Dubai","Istanbul","Tokyo","Hong Kong","Singapore","Macau","Kuala Lumpur",
+"New York","Rome","Barcelona","Milan","Mecca","Phuket","Vienna","Shanghai","Prague","Amsterdam","Seoul",
+"Taipei","Los Angeles","Las Vegas","Madrid","Berlin","Sydney","Toronto","Mexico City","Mumbai","Cairo","Athens",
+"Lisbon","Budapest","Miami","San Francisco","Beijing","Bali","Antalya","Cancun","Venice","Florence","Dublin",
+"Brussels","Zurich","Geneva","Johannesburg","Cape Town","Nairobi","Casablanca","Marrakech","Riyadh","Abu Dhabi",
+"Doha","Muscat","Beirut","Jerusalem","Karachi","Lahore","Colombo","Kathmandu","Dhaka","Hanoi",
+"Ho Chi Minh City","Manila","Jakarta","Yangon","Phnom Penh","Chiang Mai","Guangzhou","Shenzhen","Chengdu",
+"Melbourne","Auckland","Vancouver","Montreal","Chicago","Boston","Houston","Buenos Aires",
+"Lima","Bogotá","Santiago","Havana","Panama City","Lagos","Accra",
+"Addis Ababa","Tunis","Algiers","Moscow","Saint Petersburg","Warsaw","Bucharest"
 ];
 
 async function fetchAndRenderWeather() {
