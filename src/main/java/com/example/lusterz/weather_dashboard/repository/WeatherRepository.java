@@ -15,4 +15,6 @@ public interface WeatherRepository extends JpaRepository<Weather, Long> {
 
     void deleteByLastUpdatedBefore(LocalDateTime date);
 
+    void deleteByCityName(String cityName);
+
 }

@@ -2,6 +2,7 @@ package com.example.lusterz.weather_dashboard.controller;
 
 import com.example.lusterz.weather_dashboard.model.Weather;
 import com.example.lusterz.weather_dashboard.service.WeatherService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,10 @@ public class WeatherController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Weather>> getCitiesWeather() {
-        List<Weather> list = weatherService.getCitiesWeather();
+    public ResponseEntity<Page<Weather>> getCitiesWeather(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<Weather> list = weatherService.getCitiesWeather(page, size);
         return ResponseEntity.ok(list);
     }
 

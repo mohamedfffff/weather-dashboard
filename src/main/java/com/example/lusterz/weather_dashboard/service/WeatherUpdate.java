@@ -39,10 +39,15 @@ public class WeatherUpdate {
         this.weatherRepository = weatherRepository;
     }
 
+    // delete old data and save new one
     public Mono<Weather> saveSingleCityWeather(String city) {
         return weatherApiClient.fetchWeatherJson(city)
                 .map(weatherMapper::map)
-                .doOnNext(weatherRepository::save);
+                .doOnNext(newData -> {
+                        weatherRepository.deleteByCityName(newData.getCityName());
+                        weatherRepository.save(newData);
+                        }
+                );
     }
 
     public Mono<List<Weather>> saveCitiesWeather() {
@@ -56,12 +61,5 @@ public class WeatherUpdate {
     @Scheduled(fixedRate = 10 * 10 * 1000) 
     public void updateWeatherData() {
         saveCitiesWeather().subscribe();
-    }
-
-    // delete data older that 1 month // runs every day at midnight
-    @Scheduled(cron = "0 0 0 * * *") 
-    public void deleteOldWeatherData() {
-        LocalDateTime cutoff = LocalDateTime.now().minusDays(30);
-        weatherRepository.deleteByLastUpdatedBefore(cutoff);
     }
 }

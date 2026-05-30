@@ -7,11 +7,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🏙️ Global Weather Snapshot</h1>
+<h1>🏙️ Global Weather Snapshot</h1>
 
-    <div class="weather-grid" id="weatherGrid">
-    </div>
+<div class="weather-grid" id="weatherGrid"></div>
 
-    <script src="script.js", type="module"></script>
+<div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin: 20px;">
+    <button id="prev">◀ Prev</button>
+    <div id="pageInfo" style="color: #BB86FC;"></div>
+    <button id="next">Next ▶</button>
+</div>
+
+<script src="script.js" type="module"></script>
 </body>
 </html>
